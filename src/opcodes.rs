@@ -162,6 +162,38 @@ pub enum Opcode {
     REVERT = 0xfd,      // Gas: 0
     INVALID = 0xfe,     // Gas: 0
     SELFDESTRUCT = 0xff, // Gas: 5000
+
+    // GhostChain-specific opcodes (custom range)
+    // Identity operations
+    GHOST_ID_VERIFY = 0xc0,     // Gas: 1000 - Verify GhostID signature
+    GHOST_ID_RESOLVE = 0xc1,    // Gas: 500 - Resolve GhostID to address
+    GHOST_ID_CREATE = 0xc2,     // Gas: 2000 - Create new GhostID
+
+    // Token operations (4-token economy)
+    TOKEN_BALANCE = 0xc3,       // Gas: 100 - Get token balance (GCC/SPIRIT/MANA/GHOST)
+    TOKEN_TRANSFER = 0xc4,      // Gas: 5000 - Transfer tokens between accounts
+    TOKEN_MINT = 0xc5,          // Gas: 10000 - Mint new tokens (restricted)
+    TOKEN_BURN = 0xc6,          // Gas: 5000 - Burn tokens
+
+    // CNS operations
+    CNS_RESOLVE = 0xc7,         // Gas: 300 - Resolve domain to address
+    CNS_REGISTER = 0xc8,        // Gas: 20000 - Register new domain
+    CNS_UPDATE = 0xc9,          // Gas: 5000 - Update domain records
+    CNS_OWNER = 0xca,           // Gas: 100 - Get domain owner
+
+    // L2 operations
+    L2_SUBMIT = 0xcb,           // Gas: 2000 - Submit transaction to L2
+    L2_BATCH_VERIFY = 0xcc,     // Gas: 50000 - Verify L2 batch proof
+    L2_STATE_SYNC = 0xcd,       // Gas: 10000 - Sync L1/L2 state
+
+    // Cross-chain operations
+    BRIDGE_SEND = 0xce,         // Gas: 15000 - Send cross-chain transaction
+    BRIDGE_RECEIVE = 0xcf,      // Gas: 10000 - Receive cross-chain transaction
+
+    // AI/Agent operations (Jarvis integration)
+    AGENT_CALL = 0xd0,          // Gas: 5000 - Call AI agent function
+    AGENT_DEPLOY = 0xd1,        // Gas: 50000 - Deploy AI agent
+    AGENT_QUERY = 0xd2,         // Gas: 1000 - Query agent state
 }
 
 impl Opcode {
@@ -302,6 +334,28 @@ impl Opcode {
             0xfd => Ok(Opcode::REVERT),
             0xfe => Ok(Opcode::INVALID),
             0xff => Ok(Opcode::SELFDESTRUCT),
+
+            // GhostChain-specific opcodes
+            0xc0 => Ok(Opcode::GHOST_ID_VERIFY),
+            0xc1 => Ok(Opcode::GHOST_ID_RESOLVE),
+            0xc2 => Ok(Opcode::GHOST_ID_CREATE),
+            0xc3 => Ok(Opcode::TOKEN_BALANCE),
+            0xc4 => Ok(Opcode::TOKEN_TRANSFER),
+            0xc5 => Ok(Opcode::TOKEN_MINT),
+            0xc6 => Ok(Opcode::TOKEN_BURN),
+            0xc7 => Ok(Opcode::CNS_RESOLVE),
+            0xc8 => Ok(Opcode::CNS_REGISTER),
+            0xc9 => Ok(Opcode::CNS_UPDATE),
+            0xca => Ok(Opcode::CNS_OWNER),
+            0xcb => Ok(Opcode::L2_SUBMIT),
+            0xcc => Ok(Opcode::L2_BATCH_VERIFY),
+            0xcd => Ok(Opcode::L2_STATE_SYNC),
+            0xce => Ok(Opcode::BRIDGE_SEND),
+            0xcf => Ok(Opcode::BRIDGE_RECEIVE),
+            0xd0 => Ok(Opcode::AGENT_CALL),
+            0xd1 => Ok(Opcode::AGENT_DEPLOY),
+            0xd2 => Ok(Opcode::AGENT_QUERY),
+
             _ => Err(RvmError::InvalidOpcode(byte)),
         }
     }
@@ -371,8 +425,26 @@ impl Opcode {
             
             Opcode::CREATE | Opcode::CREATE2 => 32000,
             Opcode::SELFDESTRUCT => 5000,
-            
+
             Opcode::RETURN | Opcode::REVERT | Opcode::INVALID => 0,
+
+            // GhostChain-specific opcode gas costs
+            Opcode::GHOST_ID_VERIFY => 1000,
+            Opcode::GHOST_ID_RESOLVE => 500,
+            Opcode::GHOST_ID_CREATE => 2000,
+
+            Opcode::TOKEN_BALANCE | Opcode::CNS_OWNER => 100,
+            Opcode::CNS_RESOLVE => 300,
+            Opcode::AGENT_QUERY => 1000,
+
+            Opcode::L2_SUBMIT => 2000,
+            Opcode::TOKEN_TRANSFER | Opcode::TOKEN_BURN | Opcode::CNS_UPDATE |
+            Opcode::AGENT_CALL => 5000,
+
+            Opcode::TOKEN_MINT | Opcode::L2_STATE_SYNC | Opcode::BRIDGE_RECEIVE => 10000,
+            Opcode::CNS_REGISTER | Opcode::BRIDGE_SEND => 20000,
+
+            Opcode::L2_BATCH_VERIFY | Opcode::AGENT_DEPLOY => 50000,
         }
     }
 

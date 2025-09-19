@@ -161,9 +161,87 @@ pub enum RvmError {
     
     #[error("GhostChain integration error: {0}")]
     GhostChainError(String),
-    
+
     #[error("Tokio runtime error: {0}")]
     TokioError(String),
+
+    // GhostChain Token System Errors
+    #[error("Insufficient token balance: {token} - required {required}, available {available}")]
+    InsufficientTokenBalance { token: String, required: u64, available: u64 },
+
+    #[error("Invalid token type: {0}")]
+    InvalidTokenType(String),
+
+    #[error("Token transfer failed: {0}")]
+    TokenTransferFailed(String),
+
+    #[error("Token mint unauthorized: {0}")]
+    TokenMintUnauthorized(String),
+
+    #[error("Token burn failed: {0}")]
+    TokenBurnFailed(String),
+
+    // GhostID Errors
+    #[error("GhostID verification failed: {0}")]
+    GhostIdVerificationFailed(String),
+
+    #[error("GhostID not found: {0}")]
+    GhostIdNotFound(String),
+
+    #[error("GhostID creation failed: {0}")]
+    GhostIdCreationFailed(String),
+
+    #[error("Invalid GhostID format: {0}")]
+    InvalidGhostIdFormat(String),
+
+    // CNS (Crypto Name Service) Errors
+    #[error("Domain not found: {0}")]
+    DomainNotFound(String),
+
+    #[error("Domain registration failed: {0}")]
+    DomainRegistrationFailed(String),
+
+    #[error("Domain resolution failed: {0}")]
+    DomainResolutionFailed(String),
+
+    #[error("Unauthorized domain operation: {0}")]
+    UnauthorizedDomainOperation(String),
+
+    #[error("Invalid domain name: {0}")]
+    InvalidDomainName(String),
+
+    // L2 Operations Errors
+    #[error("L2 submission failed: {0}")]
+    L2SubmissionFailed(String),
+
+    #[error("L2 batch verification failed: {0}")]
+    L2BatchVerificationFailed(String),
+
+    #[error("L2 state sync failed: {0}")]
+    L2StateSyncFailed(String),
+
+    // Cross-chain Bridge Errors
+    #[error("Bridge operation failed: {0}")]
+    BridgeOperationFailed(String),
+
+    #[error("Cross-chain transaction failed: {0}")]
+    CrossChainTransactionFailed(String),
+
+    #[error("Bridge connection failed: {0}")]
+    BridgeConnectionFailed(String),
+
+    // AI/Agent Errors (Jarvis Integration)
+    #[error("Agent operation failed: {0}")]
+    AgentOperationFailed(String),
+
+    #[error("Agent deployment failed: {0}")]
+    AgentDeploymentFailed(String),
+
+    #[error("Agent not found: {0}")]
+    AgentNotFound(String),
+
+    #[error("Agent query failed: {0}")]
+    AgentQueryFailed(String),
     
     // Custom/Generic Errors
     #[error("Internal error: {0}")]

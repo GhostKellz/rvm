@@ -8,8 +8,11 @@ pub mod runtime;
 pub mod revm;
 pub mod opcodes;
 pub mod gas;
+pub mod ghostchain_gas;
 pub mod storage;
 pub mod crypto;
+pub mod ghostchain_crypto;
+pub mod ghostchain_services;
 pub mod error;
 pub mod wasm_lite;
 
@@ -18,6 +21,9 @@ pub use runtime::*;
 pub use revm::*;
 pub use wasm_lite::*;
 pub use error::RvmError;
+pub use ghostchain_gas::*;
+pub use ghostchain_crypto::*;
+pub use ghostchain_services::*;
 
 /// RVM version information
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
