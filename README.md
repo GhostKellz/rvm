@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/rvm-logo.png" alt="RVM Logo" width="400">
+</div>
+
 # RVM — The Rust Virtual Machine
 
 `rvm` is a robust, extensible, and secure virtual machine engine built entirely in Rust. It brings the power and safety of Rust to VM execution, enabling lightning-fast and deterministic program logic for next-generation blockchain, agent, and cloud-native systems.
